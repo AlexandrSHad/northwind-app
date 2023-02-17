@@ -1,0 +1,8 @@
+version: '3.9'
+services:
+  sqlite3:
+    image: 'keinos/sqlite3'
+    volumes:
+      - ./../Database:/workspace
+    working_dir: /workspace
+    #command: /workspace/Northwind.db

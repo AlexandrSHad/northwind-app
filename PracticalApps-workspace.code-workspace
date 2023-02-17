@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"path": "Docker"
+		},
+		{
+			"path": "Database"
+		},
+		{
+			"path": "Scripts"
+		},
+		{
+			"path": "Northwind.Common.DataContext.Sqlite"
+		},
+		{
+			"path": "Northwind.Common.EntityModels.Sqlite"
+		},
+		{
+			"path": "Northwind.Common.UnitTests"
+		},
+		{
+			"path": "Northwind.Razor.Employees"
+		},
+		{
+			"path": "Northwind.Web"
+		}
+	]
+}
