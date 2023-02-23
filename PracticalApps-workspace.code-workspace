@@ -26,6 +26,9 @@
 		},
 		{
 			"path": "Northwind.Mvc"
+		},
+		{
+			"path": "Northwind.WebApi"
 		}
 	]
 }
