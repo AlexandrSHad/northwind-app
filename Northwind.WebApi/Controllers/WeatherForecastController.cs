@@ -18,10 +18,16 @@ public class WeatherForecastController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet(Name = "GetWeatherForecast")]
+    [HttpGet(Name = "GetWeatherForecastFiveDays")]
     public IEnumerable<WeatherForecast> Get()
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        return Get(days: 5);
+    }
+
+    [HttpGet(template: "{days:int}", Name = "GetWeatherForecast")]
+    public IEnumerable<WeatherForecast> Get(int days) // new method
+    {
+        return Enumerable.Range(1, days).Select(index => new WeatherForecast
         {
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
             TemperatureC = Random.Shared.Next(-20, 55),
