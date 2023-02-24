@@ -30,5 +30,24 @@
 		{
 			"path": "Northwind.WebApi"
 		}
-	]
+	],
+
+	"launch": {
+		"version": "0.2.0",
+		"compounds": [
+			{
+				"name": "Launch MVC + WebApi",
+				"configurations": [
+					{
+						"folder": "Northwind.WebApi",
+						"name": ".NET Core Launch (web)"
+					},
+					{
+						"folder": "Northwind.Mvc",
+						"name": ".NET Core Launch (web)"
+					}
+				]
+			}
+		]
+	}
 }

@@ -10,11 +10,13 @@ namespace Northwind.Mvc.Controllers;
 public class HomeController : Controller
 {
     private readonly NorthwindContext _db;
+    private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(NorthwindContext db, ILogger<HomeController> logger)
+    public HomeController(NorthwindContext db, IHttpClientFactory httpClientFactory, ILogger<HomeController> logger)
     {
         _db = db;
+        _httpClientFactory = httpClientFactory;
         _logger = logger;
     }
 
@@ -75,13 +77,37 @@ public class HomeController : Controller
             .Include(p => p.Supplier)
             .Where(p => p.UnitPrice > price)
             .ToListAsync();
-        
+
         if (!model.Any())
         {
             return NotFound($"No products cost more than {price:C}.");
         }
-        
+
         ViewData["MaxPrice"] = price.Value.ToString("C");
         return View(model); // pass model to view
+    }
+
+    public async Task<IActionResult> Customers(string country)
+    {
+        string uri;
+        if (string.IsNullOrEmpty(country))
+        {
+            ViewData["Title"] = "All Customers Worldwide";
+            uri = "api/customers";
+        }
+        else
+        {
+            ViewData["Title"] = $"Customers in {country}";
+            uri = $"api/customers/?country={country}";
+        }
+        HttpClient client = _httpClientFactory.CreateClient(name: "Northwind.WebApi");
+        HttpRequestMessage request = new(method: HttpMethod.Get, requestUri: uri);
+
+        HttpResponseMessage response = await client.SendAsync(request);
+
+        IEnumerable<Customer>? model = await response.Content
+            .ReadFromJsonAsync<IEnumerable<Customer>>();
+
+        return View(model);
     }
 }
