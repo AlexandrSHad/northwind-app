@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Northwind.WebApi.Repositories;
+using Packt.Shared;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +40,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<NorthwindContext>()
+    .AddSqlite(@"Data Source=..\Database\Northwind.db");
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -58,6 +63,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseHttpLogging();
+
+app.UseHealthChecks(path: "/health");
 
 app.MapControllers();
 
