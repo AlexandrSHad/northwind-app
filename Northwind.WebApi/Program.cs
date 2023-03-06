@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Northwind.WebApi.Repositories;
 using Packt.Shared;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -29,7 +30,8 @@ builder.Services.AddControllers(options =>
 })
 .AddXmlDataContractSerializerFormatters()
 .AddXmlSerializerFormatters();
-builder.Services.AddHttpLogging(options => {
+builder.Services.AddHttpLogging(options =>
+{
     options.LoggingFields = HttpLoggingFields.All;
     options.RequestBodyLogLimit = 4096;
     options.ResponseBodyLogLimit = 4096;
@@ -44,17 +46,27 @@ builder.Services.AddHealthChecks()
     .AddDbContextCheck<NorthwindContext>()
     .AddSqlite(@"Data Source=..\Database\Northwind.db");
 
+builder.WebHost.ConfigureKestrel((context, options) =>
+{
+    options.ListenAnyIP(7001, listenOptions =>
+    {
+        listenOptions.Protocols = HttpProtocols.Http1AndHttp2AndHttp3;
+        listenOptions.UseHttps(); // HTTP/3 requires secure connections
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(options => {
+    app.UseSwaggerUI(options =>
+    {
         options.SwaggerEndpoint(
             url: "/swagger/v1/swagger.json",
             name: "Northwind Service API version 1");
-        options.SupportedSubmitMethods(new [] { SubmitMethod.Get, SubmitMethod.Post, SubmitMethod.Put, SubmitMethod.Delete });
+        options.SupportedSubmitMethods(new[] { SubmitMethod.Get, SubmitMethod.Post, SubmitMethod.Put, SubmitMethod.Delete });
     });
 }
 

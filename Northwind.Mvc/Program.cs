@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,9 @@ builder.Services.AddHttpClient("Northwind.WebApi", options => {
     options.BaseAddress = new Uri("https://localhost:7001");
     options.DefaultRequestHeaders.Accept.Add(
         new MediaTypeWithQualityHeaderValue(mediaType: "application/json", quality: 1.0));
+
+    options.DefaultRequestVersion = HttpVersion.Version30;
+    options.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrLower;
 });
 
 var app = builder.Build();
