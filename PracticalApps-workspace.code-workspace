@@ -32,6 +32,9 @@
 		},
 		{
 			"path": "Northwind.BlazorServer"
+		},
+		{
+			"path": "Northwind.BalzorWasm"
 		}
 	],
 
