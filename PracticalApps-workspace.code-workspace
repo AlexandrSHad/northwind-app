@@ -29,6 +29,9 @@
 		},
 		{
 			"path": "Northwind.WebApi"
+		},
+		{
+			"path": "Northwind.BlazorServer"
 		}
 	],
 
