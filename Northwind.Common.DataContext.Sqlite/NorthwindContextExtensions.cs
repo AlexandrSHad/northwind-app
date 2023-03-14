@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Packt.Shared;
+
+namespace Packt.Shared;
 
 public static class NorthwindContextExtensions
 {
