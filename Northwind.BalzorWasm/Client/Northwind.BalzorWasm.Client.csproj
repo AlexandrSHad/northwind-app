@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Shared\Northwind.BalzorWasm.Shared.csproj" />
+    <ProjectReference Include="..\..\Northwind.Common.EntityModels.Sqlite\Northwind.Common.EntityModels.Sqlite.csproj" />
   </ItemGroup>
 
   <ItemGroup>
